@@ -15,10 +15,10 @@ class EspecieDTO:
             'description': fields.String(),
             'primary_type': fields.String(
                 required=True,
-                enum=Poketipo,
+                enum=Poketipo._member_names_,
             ),
             'secondary_type': fields.String(
-                enum=Poketipo,
+                enum=Poketipo._member_names_,
             ),
         },
         strict=True,
