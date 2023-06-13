@@ -1,8 +1,7 @@
 from ..db import db
 from datetime import datetime
-from .genericDTOInterface import GenericDTOInterface
 
-class Bolsista(db.Model,GenericDTOInterface):
+class Bolsista(db.Model):
     __table_name__ = 'bolsista'
 
     id = db.Column(db.Integer,primary_key=True)
