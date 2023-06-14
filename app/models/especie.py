@@ -11,6 +11,5 @@ class Especie(db.Model):
     primary_type = db.Column(db.Enum(Poketipo), nullable=False, default=Poketipo.NORMAL)
     secondary_type = db.Column(db.Enum(Poketipo))
 
-    origin_id = db.Column(db.ForeignKey('especies.id'))
-
-    origin = db.relationship("Especie", back_populates='origin')
+    origin_id = db.Column(db.Integer, db.ForeignKey('especies.id'))
+    origin = db.relationship("Especie", remote_side=[id], backref='evolutions')
