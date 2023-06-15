@@ -7,6 +7,8 @@ class Poketipo(Enum):
     WATER = 'water'
     FIRE = 'fire'
     ELETRIC = 'eletric'
+    POISON = 'poison'
+    FLYING = 'flying'
 
     def __str__(self) -> str:
         return self.value

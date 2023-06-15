@@ -8,6 +8,7 @@ api = BolsistaDTO.api
 bolsista_input = BolsistaDTO.bolsista_input
 bolsista = BolsistaDTO.bolsista
 
+
 @api.route('/')
 class BolsistasAPI(Resource):
 
@@ -20,6 +21,7 @@ class BolsistasAPI(Resource):
     @api.marshal_list_with(bolsista)
     def get(self):
         return bolsistaService.get_all() , 200
+
 
 @api.route('/<int:id>')
 @api.param('id','Bolsista identificador')
@@ -37,8 +39,4 @@ class BolsistaAPI(Resource):
 
     @api.response(204, 'Bolsista deletado com sucesso')
     def delete(self, id):
-        if bolsistaService.delete(id):
-            return '', 204
-        else:
-            return {'message': 'Bolsista não encontrado'}, 404
-
+        return bolsistaService.delete(id), 204

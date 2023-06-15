@@ -2,7 +2,7 @@ from ..db import db
 from datetime import datetime
 
 class Bolsista(db.Model):
-    __table_name__ = 'bolsista'
+    __tablename__ = 'bolsistas'
 
     id = db.Column(db.Integer,primary_key=True)
     nome = db.Column(db.String, nullable=False)
@@ -17,5 +17,3 @@ class Bolsista(db.Model):
     @data_nascimento.setter
     def data_nascimento(self, value):
         self._data_nascimento = datetime.strptime(value, '%Y-%m-%d').date()
-
-    

@@ -7,6 +7,9 @@ especieService = EspecieService()
 api = EspecieDTO.api
 especie_input = EspecieDTO.especie_input
 especie = EspecieDTO.especie
+especie_filtro = EspecieDTO.especie_filtro
+especie_contada = EspecieDTO.especie_contada
+
 
 @api.route('/')
 class EspeciesAPI(Resource):
@@ -16,10 +19,12 @@ class EspeciesAPI(Resource):
     def post(self):
         data = api.payload
         return especieService.create(data), 201
-    
+
+    @api.expect(especie_filtro)
     @api.marshal_list_with(especie)
     def get(self):
-        return especieService.get_all() , 200
+        query_params = especie_filtro.parse_args()
+        return especieService.get_all(query_param=query_params) , 200
 
 @api.route('/<int:id>')
 @api.param('id','Especie identificador')
@@ -37,8 +42,11 @@ class EspecieAPI(Resource):
 
     @api.response(204, 'Especie deletado com sucesso')
     def delete(self, id):
-        if especieService.delete(id):
-            return '', 204
-        else:
-            return {'message': 'Especie não encontrado'}, 404
+        return especieService.delete(id), 204
 
+
+@api.route('/count-types')
+class EspecieCounterAPI(Resource):
+    @api.marshal_with(especie_contada, code=200)
+    def get(self):
+        return especieService.count(), 200

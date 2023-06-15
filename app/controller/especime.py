@@ -8,6 +8,7 @@ api = EspecimeDTO.api
 especime_input = EspecimeDTO.especime_input
 especime = EspecimeDTO.especime
 
+
 @api.route('/')
 class EspecimesAPI(Resource):
 
@@ -20,6 +21,7 @@ class EspecimesAPI(Resource):
     @api.marshal_list_with(especime)
     def get(self):
         return especimeService.get_all() , 200
+
 
 @api.route('/<int:id>')
 @api.param('id','Especime identificador')
@@ -37,7 +39,4 @@ class EspecimeAPI(Resource):
 
     @api.response(204, 'Especime deletado com sucesso')
     def delete(self, id):
-        if especimeService.delete(id):
-            return '', 204
-        else:
-            return {'message': 'Especime não encontrado'}, 404
+        return especimeService.delete(id), 204
