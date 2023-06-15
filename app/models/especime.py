@@ -1,5 +1,5 @@
 import datetime
-import db
+from ..db import db
 
 class Especime(db.Model):
     __table_name__ = 'especime'
@@ -13,6 +13,7 @@ class Especime(db.Model):
     _data_cadastro = db.Column('data_cadastro', db.Date, nullable=False)
 
     id_foto_especime = db.Column(db.String, nullable=False, default = " ")
+    
 
     @property
     def data_cadastro(self):
