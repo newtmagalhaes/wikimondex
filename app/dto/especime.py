@@ -4,12 +4,15 @@ class EspecimeDTO:
     api = Namespace('especime')
 
     especime_input = api.model(
-        'bolsista_input',
+        'especime_input',
         {
             'apelido': fields.String(required=True),
             'altura': fields.Float(required=True),
             'peso': fields.Float(required=True),
+            'id_bolsista': fields.Integer(required=True),
+            'id_especie': fields.Integer(required = True),
             'data_cadastro': fields.Date(required=True),
+            'id_capa_especime': fields.Integer(required=True)
         }
     )
 

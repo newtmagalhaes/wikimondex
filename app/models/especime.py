@@ -8,7 +8,11 @@ class Especime(db.Model):
     apelido = db.Column(db.String, nullable=False)
     altura = db.Column(db.Float, nullable = False)
     peso = db.Column(db.Float, nullable = False)
+    id_bolsista = db.Column(db.Integer, db.ForeignKey('bolsista.id'), nullable=False)
+    id_bolsista = db.Column(db.Integer, db.ForeignKey('especime.id'), nullable=False)
     _data_cadastro = db.Column('data_cadastro', db.Date, nullable=False)
+
+    id_foto_especime = db.Column(db.String, nullable=False, default = " ")
 
     @property
     def data_cadastro(self):
