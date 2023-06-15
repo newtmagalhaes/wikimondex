@@ -37,8 +37,4 @@ class BolsistaAPI(Resource):
 
     @api.response(204, 'Bolsista deletado com sucesso')
     def delete(self, id):
-        if bolsistaService.delete(id):
-            return '', 204
-        else:
-            return {'message': 'Bolsista não encontrado'}, 404
-
+        return bolsistaService.delete(id), 204

@@ -17,5 +17,3 @@ class Bolsista(db.Model):
     @data_nascimento.setter
     def data_nascimento(self, value):
         self._data_nascimento = datetime.strptime(value, '%Y-%m-%d').date()
-
-    
