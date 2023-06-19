@@ -1,7 +1,9 @@
 from .generic_controller import generic_controller,generic_id_controller
-from ..dto.bolsista import BolsistaDTO
+from ..dto import BolsistaDTO, EspecieDTO
 from ..service.bolsista import BolsistaService
 from flask_restx import Resource
+
+especie_filtro = EspecieDTO.especie_filtro
 
 bolsista_input = BolsistaDTO.bolsista_input
 bolsista = BolsistaDTO.bolsista
@@ -11,7 +13,8 @@ api = BolsistaDTO.api
 
 generic_dto = {
     "model" : bolsista,
-    "model_input" : bolsista_input
+    "model_input" : bolsista_input,
+    'model_filter': especie_filtro,
 }
 
 class BolsistaAPI(generic_controller(api, generic_dto, bolsista_service)):
@@ -21,9 +24,9 @@ class BolsistaIdAPI(generic_id_controller(api, generic_dto, bolsista_service)):
     pass
 
 @api.route('/especime_tipo/<string:tipo>')
+@api.deprecated
 class BolsistaByEspecimeTipo(Resource):
     
     @api.marshal_list_with(BolsistaDTO.bolsista)
     def get(self, tipo):
-        bolsistas = bolsista_service.get_bolsistas_by_especime_tipo(tipo)
-        return bolsistas, 200
+        return bolsista_service.get_bolsistas_by_especime_tipo(tipo), 200

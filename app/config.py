@@ -11,7 +11,7 @@ class BaseConfig:
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI = 'sqlite:///project.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_ECHO = True
 
 
 class Development(BaseConfig):
