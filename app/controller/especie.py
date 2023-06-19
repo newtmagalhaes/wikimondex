@@ -29,6 +29,8 @@ class EspecieIdAPI(generic_id_controller(api,generic_dto,especie_service)):
 @api.route('/<int:id>/evolucoes')
 @api.param('id','Identificador da entidade')
 class EspecieEvolucaoAPI(Resource):
+
+    @api.marshal_list_with(especie)
     def get(self, id):
         especie = especie_service.get(id)
         if especie:

@@ -44,6 +44,6 @@ def generic_id_controller(api, dto, service):
 
         @api.response(204, 'Entidade deletada com sucesso')
         def delete(self, id):
-        return bolsistaService.delete(id), 204
+            return service.delete(id), 204
 
     return GenericIdAPI

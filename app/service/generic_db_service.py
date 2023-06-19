@@ -38,9 +38,11 @@ class GenericDBService:
 
     def get_all(self, query_params: dict = {}) -> list:
         query = self.session.query(self.model_class)
-        if filter_clauses := getattr(self,'filter_clauses')(query_params):
+        if hasattr(self,'filter_clauses'):
+            filter_clauses = self.filter_clauses(query_params)
             query = query.filter(*filter_clauses)
         return query.all()
+
 
     def delete(self, obj_id: int):
         obj = self.get(obj_id)

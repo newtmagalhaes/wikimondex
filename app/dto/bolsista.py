@@ -19,3 +19,5 @@ class BolsistaDTO:
         {'id': fields.Integer(readonly = True)},
         bolsista_input,
     )
+
+    bolsista_quantidade_especime= api.model

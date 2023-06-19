@@ -24,12 +24,6 @@ class EspecieService(DBService):
             ))
 
         return clauses
-    def get_all(self, query_param: dict = {}) -> list:
-        query = self.session.query(self.model_class)
-
-        if filter_clauses := create_filter_clauses(query_param):
-            query = query.filter(*filter_clauses)
-        return query.all()
 
     def count(self) -> dict:
         result = {}
