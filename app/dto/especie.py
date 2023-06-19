@@ -1,4 +1,5 @@
 from flask_restx import Namespace, fields
+from flask_restx.reqparse import Argument
 
 from ..utils.tipos import Poketipo
 
@@ -29,3 +30,33 @@ class EspecieDTO:
         {'id': fields.Integer(readonly=True)},
         especie_input,
     )
+
+    especie_filtro = api.parser()
+    especie_filtro.add_argument(Argument(
+        'texto',
+        dest='text',
+        type=str,
+        location='args',
+        store_missing=False,
+    ))
+    especie_filtro.add_argument(Argument(
+        'tipo',
+        dest='types',
+        type=str,
+        location='args',
+        store_missing=False,
+        action='append',
+        choices=Poketipo._member_names_,
+        help=f'Possíveis valores: {Poketipo._member_names_}',
+    ))
+
+    wild_count = fields.Wildcard(
+        fields.Integer,
+        readonly=True,
+        description="Quantidade contada.",
+    )
+    especie_contada = api.model(
+        'especie_contada',
+        {'*': wild_count},
+    )
+

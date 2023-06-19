@@ -1,5 +1,6 @@
 from flask_restx import Namespace, fields
 
+
 class EspecimeDTO:
     api = Namespace('especime')
 

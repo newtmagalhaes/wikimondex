@@ -1,10 +1,11 @@
-from typing import List
+from flask_restx.errors import abort
 from sqlalchemy.orm import Session
+
 
 class GenericDBService:
 
     def __init__(self, session: Session, model_class):
-        self.session = session;
+        self.session = session
         self.model_class = model_class
 
     def commit(self, *instances):
@@ -22,25 +23,24 @@ class GenericDBService:
         return obj
 
     def update(self, obj_id: int, data: dict):
-        obj = self.session.query(self.model_class).get(obj_id)
-        if obj:
-            for key, value in data.items():
-                setattr(obj, key, value)
-            self.commit(obj)
+        obj = self.get(obj_id)
+        for key, value in data.items():
+            setattr(obj, key, value)
+        self.commit(obj)
         return obj
+
+    def _get(self, obj_id: int):
+        return self.session.query(self.model_class).get(obj_id)
 
     def get(self, obj_id: int):
-        obj = self.session.query(self.model_class).get(obj_id)
-        return obj
+        if obj := self._get(obj_id):
+            return obj
+        abort(404, f"Entidade do tipo '{self.model_class.__name__}' não encontrada.")
 
-    def get_all(self) -> List:
-        objs = self.session.query(self.model_class).all()
-        return objs
-    
-    def delete(self,obj_id : int):
-        obj = self.session.query(self.model_class).get(obj_id)
-        if obj:
-            self.session.delete(obj)
-            self.commit()
-            return True
-        return False
+    def get_all(self) -> list:
+        return self.session.query(self.model_class).all()
+
+    def delete(self, obj_id: int):
+        obj = self.get(obj_id)
+        self.session.delete(obj)
+        self.commit()
