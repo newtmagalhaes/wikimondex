@@ -1,4 +1,4 @@
-from sqlalchemy import or_
+from sqlalchemy import or_,func
 
 from ..models.especie import Especie
 from .db_service import DBService
@@ -24,3 +24,27 @@ class EspecieService(DBService):
             ))
 
         return clauses
+    def get_all(self, query_param: dict = {}) -> list:
+        query = self.session.query(self.model_class)
+
+        if filter_clauses := create_filter_clauses(query_param):
+            query = query.filter(*filter_clauses)
+        return query.all()
+
+    def count(self) -> dict:
+        result = {}
+
+        for column in [self.model_class.primary_type, self.model_class.secondary_type]:
+            query_result = self.session.query(
+                column, func.count(column)
+            ).group_by(
+                column
+            ).having(
+                func.count(column) > 0
+            ).all()
+
+            for poketype, count in query_result:
+                result[poketype.value] = count + result.get(poketype.value, 0)
+            # print(query_result)
+
+        return result

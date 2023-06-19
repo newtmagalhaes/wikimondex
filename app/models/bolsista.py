@@ -4,7 +4,7 @@ from sqlalchemy.event import listens_for
 from datetime import date
 
 class Bolsista(db.Model):
-    __table_name__ = 'bolsista'
+    __tablename__ = 'bolsistas'
 
     id = db.Column(db.Integer,primary_key=True)
     nome = db.Column(db.String, nullable=False)

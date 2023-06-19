@@ -14,8 +14,10 @@ class Especie(db.Model):
     secondary_type = db.Column(db.Enum(Poketipo))
 
     origin_id = db.Column(db.Integer, db.ForeignKey('especies.id'))
+
     origin = db.relationship("Especie", remote_side=[id], backref='evolutions')
     __table_args__ = (
         CheckConstraint('primary_type != secondary_type', name='check_primary_secondary_type'),
         CheckConstraint('(primary_type != {normal_type} AND secondary_type IS NOT NULL) OR (primary_type = {normal_type} AND secondary_type IS NULL)'.format(normal_type=Poketipo.NORMAL), name='check_secondary_type_with_primary_type')
     )
+    especimes = db.relationship("Especime", back_populates='especie')

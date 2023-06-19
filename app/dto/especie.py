@@ -49,3 +49,14 @@ class EspecieDTO:
         choices=Poketipo._member_names_,
         help=f'Possíveis valores: {Poketipo._member_names_}',
     ))
+
+    wild_count = fields.Wildcard(
+        fields.Integer,
+        readonly=True,
+        description="Quantidade contada.",
+    )
+    especie_contada = api.model(
+        'especie_contada',
+        {'*': wild_count},
+    )
+

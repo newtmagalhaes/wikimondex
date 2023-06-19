@@ -1,5 +1,6 @@
 from flask_restx import Namespace, fields
 
+
 class BolsistaDTO:
     api = Namespace('bolsista')
 
