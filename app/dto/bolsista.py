@@ -18,6 +18,3 @@ class BolsistaDTO:
         {'id': fields.Integer(readonly = True)},
         bolsista_input,
     )
-
-    input_model=bolsista_input
-    output_model = bolsista

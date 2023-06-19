@@ -1,6 +1,6 @@
 from typing import List
 
-from .dbService import DBService
+from .db_service import DBService
 from ..models.bolsista import Bolsista
 
 class BolsistaService(DBService):
