@@ -1,6 +1,6 @@
 from typing import List
 
-from .dbService import DBService
+from .db_service import DBService
 from ..models.especime import Especime
 
 class EspecimeService(DBService):

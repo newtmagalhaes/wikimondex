@@ -1,52 +1,45 @@
+from flask import abort
 from flask_restx import Resource
+
+from.generic_controller import generic_controller,generic_id_controller
 
 from ..dto.especie import EspecieDTO
 from ..service.especie import EspecieService
 
-especieService = EspecieService()
+especie_service = EspecieService()
 api = EspecieDTO.api
-especie_input = EspecieDTO.especie_input
+
 especie = EspecieDTO.especie
+especie_input = EspecieDTO.especie_input
 especie_filtro = EspecieDTO.especie_filtro
 especie_contada = EspecieDTO.especie_contada
 
+generic_dto={
+    'model': especie,
+    'model_input': especie_input,
+    'model_filter': especie_filtro
+}
 
-@api.route('/')
-class EspeciesAPI(Resource):
+class EspecieAPI(generic_controller(api,generic_dto,especie_service)):
+    pass
 
-    @api.expect(especie_input, validate=True)
-    @api.marshal_with(especie, code=201)
-    def post(self):
-        data = api.payload
-        return especieService.create(data), 201
+class EspecieIdAPI(generic_id_controller(api,generic_dto,especie_service)):
+    pass
 
-    @api.expect(especie_filtro)
+@api.route('/<int:id>/evolucoes')
+@api.param('id','Identificador da entidade')
+class EspecieEvolucaoAPI(Resource):
+
     @api.marshal_list_with(especie)
-    def get(self):
-        query_params = especie_filtro.parse_args()
-        return especieService.get_all(query_param=query_params) , 200
-
-@api.route('/<int:id>')
-@api.param('id','Especie identificador')
-class EspecieAPI(Resource):
-
-    @api.marshal_with(especie)
-    def get(self,id):
-        return especieService.get(id), 200
-
-    @api.expect(especie_input, validate=True)
-    @api.marshal_with(especie)
-    def put(self, id):
-        data = api.payload
-        return especieService.update(id, data), 200
-
-    @api.response(204, 'Especie deletado com sucesso')
-    def delete(self, id):
-        return especieService.delete(id), 204
-
+    def get(self, id):
+        especie = especie_service.get(id)
+        if especie:
+            evolucoes = especie.evolutions
+            return evolucoes, 200
+        abort(404, f"Espécie com ID '{id}' não encontrada.")
 
 @api.route('/count-types')
 class EspecieCounterAPI(Resource):
     @api.marshal_with(especie_contada, code=200)
     def get(self):
-        return especieService.count(), 200
+        return especie_service.count(), 200

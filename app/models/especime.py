@@ -1,4 +1,6 @@
-import datetime
+from datetime import datetime,date
+from sqlalchemy import event
+
 
 from ..db import db
 
@@ -9,7 +11,7 @@ class Especime(db.Model):
     apelido = db.Column(db.String, nullable=False)
     altura = db.Column(db.Float, nullable = False)
     peso = db.Column(db.Float, nullable = False)
-    _data_cadastro = db.Column('data_cadastro', db.Date, nullable=False)
+    data_cadastro = db.Column('data_cadastro', db.Date, nullable=False)
 
     id_bolsista = db.Column(db.Integer, db.ForeignKey('bolsistas.id'), nullable=False)
     id_especie = db.Column(db.Integer, db.ForeignKey('especies.id'), nullable=False)
@@ -17,10 +19,6 @@ class Especime(db.Model):
 
     especie = db.relationship('Especie', back_populates='especimes', uselist=False)
 
-    @property
-    def data_cadastro(self):
-        return self._data_nascimento
-
-    @data_cadastro.setter
-    def data_nascimento(self, value):
-        self._data_nascimento = datetime.strptime(value, '%Y-%m-%d').date()
+@event.listens_for(Especime, 'before_insert')
+def set_data_cadastro(mapper, connection, target):
+    target.data_cadastro = date.today()

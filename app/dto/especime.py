@@ -12,14 +12,16 @@ class EspecimeDTO:
             'peso': fields.Float(required=True),
             'id_bolsista': fields.Integer(required=True),
             'id_especie': fields.Integer(required = True),
-            'data_cadastro': fields.Date(required=True),
             'id_capa_especime': fields.Integer(required=True)
         }
     )
 
     especime = api.clone(
         'especime',
-        {'id': fields.Integer(readonly = True)},
+        {
+            'id': fields.Integer(readonly = True),
+            'data_cadastro': fields.Date(required=True),
+        },
         especime_input,
     )
 

@@ -1,4 +1,4 @@
-from .genericDBService import GenericDBService
+from .generic_db_service import GenericDBService
 from ..db import db
 
 class DBService(GenericDBService):
