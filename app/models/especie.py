@@ -1,5 +1,7 @@
 from ..db import db
 from ..utils.tipos import Poketipo
+from sqlalchemy import CheckConstraint
+
 
 
 class Especie(db.Model):
@@ -14,4 +16,7 @@ class Especie(db.Model):
     origin_id = db.Column(db.Integer, db.ForeignKey('especies.id'))
 
     origin = db.relationship("Especie", remote_side=[id], backref='evolutions')
+    __table_args__ = (
+        CheckConstraint('primary_type != secondary_type', name='check_primary_secondary_type'),
+    )
     especimes = db.relationship("Especime", back_populates='especie')

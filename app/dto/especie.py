@@ -21,6 +21,7 @@ class EspecieDTO:
             'secondary_type': fields.String(
                 enum=Poketipo._member_names_,
             ),
+            'origin_id': fields.Integer(),
         },
         strict=True,
     )

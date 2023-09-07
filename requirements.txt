@@ -17,5 +17,6 @@ pyrsistent==0.19.3
 pytz==2023.3
 SQLAlchemy==2.0.15
 typing-extensions==4.6.3
+Flask-Migrate==4.0.4
 Werkzeug==2.3.4
 zipp==3.15.0

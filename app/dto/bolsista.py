@@ -10,7 +10,7 @@ class BolsistaDTO:
             'nome': fields.String(required=True),
             'cpf': fields.String(required=True),
             'data_nascimento': fields.Date(required=True),
-            'foto_perfil_key': fields.String(description='S3 Key'),
+            'foto_perfil_filekey': fields.String(description='File Access Key'),
         }
     )
 
@@ -20,5 +20,4 @@ class BolsistaDTO:
         bolsista_input,
     )
 
-    input_model=bolsista_input
-    output_model = bolsista
+    bolsista_quantidade_especime= api.model
